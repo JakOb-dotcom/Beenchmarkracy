@@ -1,0 +1,16 @@
+# Einheitliche LF-Zeilenenden im Repository
+* text=auto eol=lf
+
+*.php  text eol=lf
+*.js   text eol=lf
+*.css  text eol=lf
+*.sql  text eol=lf
+*.py   text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+
+# Binärdateien
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.pt   binary

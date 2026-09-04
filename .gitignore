@@ -1,0 +1,35 @@
+# ── Lokale Konfiguration & Secrets ─────────────────────
+config/config.local.php
+.env
+
+# ── Laufzeitdaten ───────────────────────────────────────
+logs/*
+!logs/.gitkeep
+!logs/.htaccess
+uploads/ocr_forms/*
+!uploads/ocr_forms/.gitkeep
+!uploads/ocr_forms/.htaccess
+
+# ── Python (OCR-Worker) ─────────────────────────────────
+PythonWorkerOCR/.venv/
+PythonWorkerOCR/venv/
+PythonWorkerOCR/__pycache__/
+PythonWorkerOCR/**/__pycache__/
+PythonWorkerOCR/*.log
+PythonWorkerOCR/out_*.txt
+*.pyc
+
+# YOLO-Gewichte sind groß – bei Bedarf per Git LFS oder separat verteilen
+# PythonWorkerOCR/model/weights/*.pt
+
+# ── Lokale Agent-/Editor-Notizen (enthalten Rechnerpfade) ──
+.github/agents/
+.github/skills/
+
+# ── IDE / OS ────────────────────────────────────────────
+.vscode/*
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
