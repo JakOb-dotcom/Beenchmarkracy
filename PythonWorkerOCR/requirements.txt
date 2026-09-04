@@ -1,0 +1,18 @@
+# OCR-Worker – Python 3.10–3.12
+# Installation:  python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
+#
+# paddleocr 2.x benötigt numpy < 2 und paddlepaddle 2.6.
+paddlepaddle==2.6.2
+paddleocr==2.8.1
+numpy<2
+opencv-python>=4.10,<5
+mysql-connector-python>=9.0
+
+# Varroa-Bodenschieber-Scan (YOLOv11, Modell aus VarroDetector – AGPL-3.0, siehe
+# THIRD_PARTY_NOTICES.md). Ohne diese Pakete werden Formulare weiterhin verarbeitet,
+# Bodenschieber-Fotos enden aber mit einer Fehlermeldung.
+# CPU-Build von torch reicht: pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Hinweis: torch muss vor paddle importiert werden (worker.py erledigt das) – sonst
+# DLL-Konflikt (libiomp5md.dll) unter Windows.
+torch>=2.2
+ultralytics>=8.3
