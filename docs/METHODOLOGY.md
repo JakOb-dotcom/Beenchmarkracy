@@ -48,13 +48,6 @@ same developmental stage at different sums depending on:
   mortality and predators. Temperature sums alone do not predict it; the app offers
   indicators (dry spells, warm humid periods, frost days in winter) but no date.
 
-Numbers quoted in beekeeping literature, such as "cherry bloom around GTS 200" or "rape
-between GTS 350 and 500", are averages for particular regions, usually the lowlands
-where they were measured. Applied unchanged to an alpine valley or a coastal site they
-can be off by weeks. Shipping such numbers as defaults would give the app an authority
-it does not have. That is why the built-in templates carry example values, clearly
-labelled as such, and why every threshold is editable.
-
 ## 3. What you have to do: calibrate your own markers
 
 The app is a measuring instrument; the scale has to be set by the user. For every marker

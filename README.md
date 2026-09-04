@@ -114,14 +114,31 @@ This project is free software under the **GNU Affero General Public License v3.0
 see [LICENSE](LICENSE). Anyone who modifies the application and runs it as a network
 service must make the source code of the modified version available to its users.
 
-### Varroa detection model (VarroDetector)
+Everything in this repository was written for Beenchmarkracy, **except** the third-party
+components listed below.
 
-Mite counting on bottom-board photos uses the YOLOv11 model from the
-[VarroDetector](https://github.com/jodivaso/VarroDetector) project (Jose Divasón et al., AGPL-3.0),
-integrated with the author's consent. The weights live in `PythonWorkerOCR/model/weights/`
-and are maintained in a GitHub fork of the original project
-([JakOb-dotcom/VarroDetector](https://github.com/JakOb-dotcom/VarroDetector)); copyright notices and the
-license text are preserved unchanged (see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and
+---
+
+## Third-party components
+
+| Component | What it does here | Origin | License |
+|---|---|---|---|
+| **VarroDetector model** (`PythonWorkerOCR/model/weights/best.pt`) | counts varroa mites on bottom-board photos | [jodivaso/VarroDetector](https://github.com/jodivaso/VarroDetector), Jose Divasón et al. | AGPL-3.0 |
+| Ultralytics YOLO | runs the model above | [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics) | AGPL-3.0 |
+| PaddleOCR / PaddlePaddle | handwriting recognition on the printable forms | [PaddlePaddle/PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) | Apache-2.0 |
+| Alpine.js 3.13.3 (`assets/vendor/`) | reactive UI components | [alpinejs/alpine](https://github.com/alpinejs/alpine) | MIT |
+| Open-Meteo | weather history, forecast and climate normals, fetched at runtime | [open-meteo.com](https://open-meteo.com) | CC BY 4.0 (data) |
+
+Full notices, copyright holders and license texts: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+### VarroDetector (varroa detection model)
+
+*Not written by this project.* The YOLOv11 weights used for mite counting are taken
+unchanged from the [VarroDetector](https://github.com/jodivaso/VarroDetector) project by
+Jose Divasón et al. (AGPL-3.0) and integrated with the author's consent. They live in
+`PythonWorkerOCR/model/weights/` and are additionally maintained in a GitHub fork of the
+original project ([JakOb-dotcom/VarroDetector](https://github.com/JakOb-dotcom/VarroDetector));
+copyright notices and the license text are preserved (see
 [PythonWorkerOCR/model/README.md](PythonWorkerOCR/model/README.md)).
 
 For scientific use, please cite the underlying study:
@@ -144,5 +161,3 @@ For scientific use, please cite the underlying study:
   year      = {2025}
 }
 ```
-
-Other third-party components (PaddleOCR, Ultralytics, Alpine.js, Open-Meteo): [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
