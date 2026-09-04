@@ -40,6 +40,10 @@ hosting environments. Expect rough edges:
 
 - Bugs can and will occur. Weather-based markers, GTS values and OCR results are aids for
   your own judgement, not a substitute for it – always double-check before acting on them.
+- The app ships **no plant-specific thresholds**. Phenology depends on site, altitude,
+  plant variety and the weather pattern of the year; every marker has to be calibrated
+  from your own observations, regional phenology networks and local literature. How and
+  why is explained in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
 - The OCR and varroa-counting pipeline is tuned to the bundled printable forms and
   smartphone photos of bottom boards; other forms or poor photos will produce wrong
   numbers or nothing at all.
@@ -89,6 +93,7 @@ pipeline has its own test: `PythonWorkerOCR/test_ocr.py`.
 
 ## Documentation
 
+- [docs/METHODOLOGY.md](docs/METHODOLOGY.md) – what the GTS forecast is and is not, phenological variability, how to calibrate your own markers, limitations
 - [docs/INSTALLATION.md](docs/INSTALLATION.md) – installation, configuration, cron job, production checklist
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) – backend, frontend and worker structure, data model, security concept
 - [docs/API.md](docs/API.md) – all REST endpoints

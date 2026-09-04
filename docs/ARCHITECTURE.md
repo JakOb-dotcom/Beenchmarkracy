@@ -58,7 +58,7 @@ Two different look-back periods are used side by side:
 - **GTS comparison** (dashed "historical average" line, `RuleEngine` historical stats): rolling average of the last `METEO_HISTORY_YEARS` (11) complete years from `weather_history`.
 - **Monthly deviations** in the calendar: fixed 30-year climate normals `METEO_NORMAL_START`–`METEO_NORMAL_END` (1995–2024) from `climate_normals`.
 
-When a location is created, 11 years plus the current year of daily data, the 16-day forecast and the climate normals are fetched from Open-Meteo in chunks (`location_refresh`).
+When a location is created, 11 years plus the current year of daily data, the 16-day forecast and the climate normals are fetched from Open-Meteo in chunks (`location_refresh`). The reasoning behind the GTS approach, the absence of built-in plant thresholds and the calibration the user has to do is in [METHODOLOGY.md](METHODOLOGY.md).
 
 ## Frontend (JS)
 
