@@ -6,8 +6,10 @@ temporary user, clones an existing location's weather data for it, drives every 
 (overview, dashboard, breeding values, calendar across the year boundary, markers incl.
 rule builder, records incl. CSV export and a real OCR upload), switches the language,
 deletes the location again and removes the user. Fails on any console error or HTTP
-error. The OCR upload uses PythonWorkerOCR/Sample images/honey.jpeg; the colony IDs on
-that form belong to another user, so the worker is expected to reject all 16 rows.
+error. The OCR upload step uses the photo given in SMOKE_OCR_IMAGE (default
+PythonWorkerOCR/Sample images/honey.jpeg, a Honigernte form with 16 rows whose colony
+IDs belong to another user, so the worker is expected to reject them). The sample photos
+are not part of the repository; without the file the OCR step is skipped.
 
 Requirements: Python 3.10+, `pip install playwright`, Microsoft Edge (or set
 SMOKE_BROWSER_CHANNEL=chromium after `playwright install chromium`), a running web
@@ -22,6 +24,7 @@ Environment (all optional):
   SMOKE_SOURCE_LOCATION   id of the location whose weather data is cloned (default 1)
   SMOKE_BROWSER_CHANNEL   default msedge
   SMOKE_SCREENSHOT_DIR    default: system temp dir
+  SMOKE_OCR_IMAGE         photo for the OCR upload step (skipped if missing)
 """
 import asyncio, subprocess, sys, time, os, tempfile
 from playwright.async_api import async_playwright
@@ -36,7 +39,7 @@ DB_PASS = os.environ.get("SMOKE_DB_PASS", "")
 SRC_LOC = int(os.environ.get("SMOKE_SOURCE_LOCATION", "1"))
 CHANNEL = os.environ.get("SMOKE_BROWSER_CHANNEL", "msedge")
 OUT     = os.environ.get("SMOKE_SCREENSHOT_DIR", tempfile.gettempdir())
-SAMPLE  = os.path.join(PROJECT, "PythonWorkerOCR", "Sample images", "honey.jpeg")
+SAMPLE  = os.environ.get("SMOKE_OCR_IMAGE", os.path.join(PROJECT, "PythonWorkerOCR", "Sample images", "honey.jpeg"))
 USER, PW = "smoketest_user", "Smoke12345!"
 
 results = []
@@ -239,25 +242,28 @@ async def main():
                 await page.evaluate("window.exportRecordsCSV()")
             d = await dl.value
             check(d.suggested_filename.endswith(".csv"), f"CSV-Export: {d.suggested_filename}")
-            # OCR upload
-            await page.set_input_files("#ocr-upload-input", SAMPLE)
-            await page.evaluate("window.uploadOcrImage()")
-            await page.wait_for_timeout(1500)
-            job = sql(f"SELECT id, status FROM ocr_jobs WHERE user_id={uid} ORDER BY id DESC LIMIT 1")
-            check(job != "", f"OCR-Job angelegt: {job}")
-            t0 = time.time(); status = ""
-            while time.time() - t0 < 300:
-                status = sql(f"SELECT status FROM ocr_jobs WHERE user_id={uid} ORDER BY id DESC LIMIT 1")
-                if status in ("done", "failed"): break
-                await page.wait_for_timeout(5000)
-            msg = sql(f"SELECT CONCAT(status,' | ',IFNULL(form_type,''),' | ',IFNULL(message,'')) FROM ocr_jobs WHERE user_id={uid} ORDER BY id DESC LIMIT 1")
-            # Die Volk-IDs 1–16 auf dem Musterformular gehören dem Admin, nicht dem Testbenutzer:
-            # der Worker muss das Formular erkennen und alle 16 Zeilen als fremd ablehnen.
-            check(status in ("done", "failed") and "Honigernte" in msg and "16" in msg, f"OCR-Pipeline durchlaufen nach {time.time()-t0:.0f}s: {msg}")
-            await page.evaluate("window.loadOcrJobs()")
-            await page.wait_for_timeout(800)
-            jl = await page.inner_text("#ocr-jobs-list")
-            check("Honigernte" in jl, "OCR-Job mit erkanntem Formulartyp in Liste sichtbar")
+            # OCR upload (only if a sample photo is available – the photos are not part of the repository)
+            if not os.path.exists(SAMPLE):
+                print('  skip OCR upload: no sample image at', SAMPLE)
+            else:
+                await page.set_input_files("#ocr-upload-input", SAMPLE)
+                await page.evaluate("window.uploadOcrImage()")
+                await page.wait_for_timeout(1500)
+                job = sql(f"SELECT id, status FROM ocr_jobs WHERE user_id={uid} ORDER BY id DESC LIMIT 1")
+                check(job != "", f"OCR-Job angelegt: {job}")
+                t0 = time.time(); status = ""
+                while time.time() - t0 < 300:
+                    status = sql(f"SELECT status FROM ocr_jobs WHERE user_id={uid} ORDER BY id DESC LIMIT 1")
+                    if status in ("done", "failed"): break
+                    await page.wait_for_timeout(5000)
+                msg = sql(f"SELECT CONCAT(status,' | ',IFNULL(form_type,''),' | ',IFNULL(message,'')) FROM ocr_jobs WHERE user_id={uid} ORDER BY id DESC LIMIT 1")
+                # Die Volk-IDs 1–16 auf dem Musterformular gehören dem Admin, nicht dem Testbenutzer:
+                # der Worker muss das Formular erkennen und alle 16 Zeilen als fremd ablehnen.
+                check(status in ("done", "failed") and "Honigernte" in msg and "16" in msg, f"OCR-Pipeline durchlaufen nach {time.time()-t0:.0f}s: {msg}")
+                await page.evaluate("window.loadOcrJobs()")
+                await page.wait_for_timeout(800)
+                jl = await page.inner_text("#ocr-jobs-list")
+                check("Honigernte" in jl, "OCR-Job mit erkanntem Formulartyp in Liste sichtbar")
             await page.screenshot(path=os.path.join(OUT, "smoke_records.png"), full_page=True)
 
             # ── Sprache ──

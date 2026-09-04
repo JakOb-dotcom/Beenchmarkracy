@@ -76,7 +76,7 @@ Rendering uses `innerHTML` with `esc()` for all user-provided values.
 
 - `tests/run.php` – runner: temporary database from `schema.sql`, then `unit_tests.php` (GTSService, RuleEngine, MeteoService pure functions, Validation, Auth/LoginThrottle against deterministic synthetic weather) and `api_tests.php` (every endpoint over HTTP via the built-in server: auth, CSRF, ownership, validation, CRUD, cascades). No PHPUnit/Composer; `tests/bootstrap.php` holds the small assertion helper and the fixtures. `config.php` honours `APP_IGNORE_LOCAL_CONFIG=1` so the suite can point the app at the test database through environment variables.
 - `tests/browser_smoke.py` – Playwright run through all tabs against a live instance (see file header).
-- `PythonWorkerOCR/test_ocr.py` – OCR pipeline on the bundled sample photos (no database).
+- `PythonWorkerOCR/test_ocr.py` – OCR pipeline on local sample photos in `PythonWorkerOCR/Sample images/` (not in the repository; no database).
 
 ## OCR worker (Python)
 

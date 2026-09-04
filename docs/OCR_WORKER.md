@@ -71,8 +71,11 @@ $env:PYTHONIOENCODING = "utf-8"
 .venv\Scripts\python.exe test_ocr.py
 ```
 
-The test runs without a database (no writes) over the images in `Sample images/` and
-compares form type, date, row count and spot checks. Reference state: 92/102 checks;
+The test runs without a database (no writes) over the photos in `PythonWorkerOCR/Sample images/`
+and compares form type, date, row count and spot checks. The photos are **not** part of the
+repository (they show a real apiary's handwritten forms); place your own photos of the printable
+forms there and adjust the expected values in `test_ocr.py`, or skip the test. Missing files are
+reported and skipped. Reference state: 92/102 checks;
 the remaining deviations are single-digit confusions (1↔7, 3↔1, 4↔2) of the printed-text
 model on handwriting.
 
@@ -80,7 +83,7 @@ Manual run against the database:
 
 ```powershell
 $env:DB_USER="root"; $env:DB_PASS=""; $env:DB_NAME="forecasting"
-.venv\Scripts\python.exe worker.py "Sample images\honey.jpeg" --user-id 1
+.venv\Scripts\python.exe worker.py "path	o\photo.jpg" --user-id 1
 ```
 
 ## Log & troubleshooting
