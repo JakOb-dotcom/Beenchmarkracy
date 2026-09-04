@@ -27,8 +27,7 @@ PythonWorkerOCR/out_*.txt
 .github/skills/
 
 # ── IDE / OS ────────────────────────────────────────────
-.vscode/*
-!.vscode/settings.json
+.vscode/
 .idea/
 .DS_Store
 Thumbs.db
