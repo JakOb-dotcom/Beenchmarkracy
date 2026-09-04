@@ -1,0 +1,16 @@
+AddDefaultCharset UTF-8
+
+# Verzeichnislisten deaktivieren
+Options -Indexes
+
+# Sensible Dateien nie ausliefern
+<FilesMatch "^(\.gitignore|\.gitattributes|\.editorconfig|.*\.sql|.*\.md|.*\.py|.*\.log|.*\.txt|composer\.(json|lock))$">
+    Require all denied
+</FilesMatch>
+
+# Basis-Sicherheits-Header (werden zusätzlich von PHP gesetzt)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "same-origin"
+</IfModule>
