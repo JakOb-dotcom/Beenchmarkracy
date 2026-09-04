@@ -3,12 +3,27 @@
 *Less beeurocracy, more honey.* Benchmarks for your bees, and a bureaucracy you will
 actually enjoy.
 
-Web application for beekeepers: weather data, grassland temperature sum (GTS,
-*Grünlandtemperatursumme*), rule-based honey-flow markers, colony and breeding-value
-management, records (honey harvest, feeding, varroa, hive card) and handwriting
-recognition (OCR) for photographed paper forms. Built by and for a small apiary in
-Styria, Austria; the database and folder are still called `forecasting` from the
-project's first life as a pure honey-flow forecast.
+Beenchmarkracy is a web application that **forecasts the beekeeping season** for each of
+your apiaries and keeps the paperwork around it in one place.
+
+**Forecasting.** For every location it pulls daily weather from Open-Meteo (11 years of
+history, a 16-day forecast and 30-year climate normals) and turns it into the grassland
+temperature sum (GTS, *Grünlandtemperatursumme*), the classic phenological clock of
+beekeeping. On top of that you define markers: simple GTS thresholds ("cherry bloom at
+GTS 200") or complex rules combining daily values, period aggregates, day counts, dry
+streaks and temperature sums. The app tells you which markers are reached, which are
+coming up in the next days and on which date, compares the current year with the
+historical average, and flags risks such as late frost during fruit bloom, swarm weather
+or a summer dearth.
+
+**Management.** Colonies per apiary with breeding-value scores and a weighted ranking,
+records for honey harvest, feeding, varroa treatment, mite fall and hive cards, CSV
+export, printable forms, and handwriting recognition (OCR) that reads photographed
+paper forms straight into the database, including automatic varroa mite counting on
+bottom-board photos.
+
+Built by and for a small apiary in Styria, Austria; the database and folder are still
+called `forecasting` from the project's first life as a pure honey-flow forecast.
 
 | Area          | Technology                                                            |
 |---------------|-----------------------------------------------------------------------|
