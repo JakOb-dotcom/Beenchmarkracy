@@ -12,8 +12,9 @@ uploads/ocr_forms/*
 
 # ── Python (OCR-Worker) ─────────────────────────────────
 PythonWorkerOCR/.venv/
-# Fotos echter Formulare/Bodenschieber – nur lokal für test_ocr.py
+# Fotos echter Formulare/Bodenschieber und der darauf abgestimmte Regressionstest – nur lokal
 PythonWorkerOCR/Sample images/
+PythonWorkerOCR/test_ocr.py
 PythonWorkerOCR/venv/
 PythonWorkerOCR/__pycache__/
 PythonWorkerOCR/**/__pycache__/

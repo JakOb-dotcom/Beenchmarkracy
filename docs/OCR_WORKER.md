@@ -63,28 +63,24 @@ The headings must not be translated – `core/htr.py` detects form type and colu
 5. Evaluate boxes by ink density, re-read empty cells that contain ink (cell rescan), correct digit misreads, sanity-check colony IDs via duplicate/sequence repair.
 6. Fallback without grid: column assignment by relative X coordinates.
 
-## Tests
+## Testing the pipeline
+
+Run the worker directly on a photo of one of the printable forms or of a bottom board;
+without `--job-id` it only logs to the console and to `logs/ocr_worker.log`:
 
 ```powershell
 cd PythonWorkerOCR
-$env:PYTHONIOENCODING = "utf-8"
-.venv\Scripts\python.exe test_ocr.py
-```
-
-The test runs without a database (no writes) over the photos in `PythonWorkerOCR/Sample images/`
-and compares form type, date, row count and spot checks. The photos are **not** part of the
-repository (they show a real apiary's handwritten forms); place your own photos of the printable
-forms there and adjust the expected values in `test_ocr.py`, or skip the test. Missing files are
-reported and skipped. Reference state: 92/102 checks;
-the remaining deviations are single-digit confusions (1↔7, 3↔1, 4↔2) of the printed-text
-model on handwriting.
-
-Manual run against the database:
-
-```powershell
 $env:DB_USER="root"; $env:DB_PASS=""; $env:DB_NAME="forecasting"
 .venv\Scripts\python.exe worker.py "path	o\photo.jpg" --user-id 1
 ```
+
+The colony IDs on the form must belong to the given user, otherwise every row is
+rejected (that is the ownership check working, not a recognition error). For
+recognition quality, the yardstick from development was 92 of 102 checks on a set of
+twelve real photos; the remaining deviations were single-digit confusions (1↔7, 3↔1,
+4↔2) of the printed-text model on handwriting. Those photos and the matching regression
+script are not part of the repository because they show a real apiary's records; keep
+your own set of photos with known values if you change `core/htr.py`.
 
 ## Log & troubleshooting
 

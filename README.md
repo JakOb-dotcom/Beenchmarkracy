@@ -88,9 +88,7 @@ php tests/run.php api      # only the HTTP endpoints (built-in PHP server: auth,
 ```
 
 `tests/browser_smoke.py` drives the whole UI in a headless browser (Playwright) against a
-running installation, including a real OCR upload; see its docstring for setup. The OCR
-pipeline has its own test, `PythonWorkerOCR/test_ocr.py`, which needs local sample photos
-(not included in the repository).
+running installation, including a real OCR upload; see its docstring for setup.
 
 ## Documentation
 
